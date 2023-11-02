@@ -16,17 +16,20 @@ class MailController extends Controller
 
 
         $extraviado = $request->input('nombre');
+        $nombreExtrav = $request->input('nombreExtrav');
         $descripcion = $request->input('descripcion');
+        $descripHechos = $request->input('descripHechos');
         $fechaExtravio = $request->input('fechaExtravio');
         $lugarExtravio = $request->input('lugarExtravio');
         $fechaActual = now();
         $estatus = $request->input('estatus');
         $email = $request->input('email');
+        $curp = $request->input('curp');
       
         
 
         $dompdf = new Dompdf();
-        $html = view('emails.pdf_constancia', compact('extraviado', 'descripcion', 'fechaExtravio', 'lugarExtravio', 'fechaActual'));
+        $html = view('emails.pdf_constancia', compact('extraviado', 'nombreExtrav','curp', 'descripcion','descripHechos', 'fechaExtravio', 'lugarExtravio', 'fechaActual'));
 
         $dompdf->loadHtml($html);
         $dompdf->render();

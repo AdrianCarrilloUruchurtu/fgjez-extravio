@@ -71,7 +71,10 @@
                         @csrf
 
                         <input type="hidden" name="nombre" value={{$extraviado->Nombre}}>
+                        <input type="hidden" name="nombreExtrav" value={{$extraviado->DocumentoExtraviado}}>
                         <input type="hidden" name="email" value="{{$extraviado->Correo}}">
+                        <input type="hidden" name="curp" value="{{$extraviado->CURP}}">
+                        <input type="hidden" name="descripHechos" value="{{$extraviado->DescripcionHechos}}">
                         <input type="hidden" name="descripcion" value="{{$extraviado->Descripcion}}">
                         <input type="hidden" name="fechaExtravio" value="{{$extraviado->FechaExtravio}}">
                         <input type="hidden" name="lugarExtravio" value="{{$extraviado->Lugar}}">
