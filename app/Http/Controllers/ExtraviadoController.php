@@ -29,23 +29,34 @@ class ExtraviadoController extends Controller
     /**
      * Store a newly created resource in storage.
      */
+    
     public function store(Request $request)
     {
         //
+        // Declaramos los campos para los campos de texto
         $campos=[
-            'Nombre'=>'required|string|max:100',
-            'Correo'=>'required|string|max:100',
-            'INE'=>'required|max:10000|mimes:jpeg,png,jpg',
-        ];
+            'Nombre' => ['required', 'string', 'max:100'],
+            'FechaNacimiento' => ['required', 'date', 'date_format:Y-m-d'],
+            'Correo' => ['required', 'email', 'max:100'],
+            'DocumentoExtraviado' => ['required', 'string', 'max:100'],
+            'Descripcion' => ['required', 'string', 'max:100'],
+            'FechaExtravio' => ['required', 'date', 'date_format:Y-m-d'],
+            'Lugar' => ['required', 'string', 'max:100'],
+            'DescripcionHechos' => ['required', 'string', 'max:100'],
+            'Estatus' => ['required', 'string', 'max:100'],
+        ];      
+          // Guardamos mensaje de que el atributo que no cumple con las caraterísticas es requerido
+
         $mensaje=[
             'required'=>'El :attribute es requerido',
             'INE.required'=>'La foto es requerida'
         ];
 
+        // Se validan los campos
         $this->validate($request,$campos,$mensaje);
 
        
-
+         // Exceptuamos el token para poder almacenar en BD
         $datosReporte= request()->except('_token');
     
 
@@ -55,8 +66,7 @@ class ExtraviadoController extends Controller
 
 
         Extraviado::insert($datosReporte);
-        //return response()->json($datosEmpleado);
-        //return redirect('reporte.create')->with('mensaje','Reporte agregado con éxito');
+    
         return view('reporte.create',$datosReporte);
     }
 

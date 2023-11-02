@@ -11,9 +11,17 @@ use Dompdf\Dompdf;
 
 class MailController extends Controller
 {
+    /**
+     * [Description for sendMail]
+     *  Función para controlar el envío de correos
+     *  
+     *  Se usa request para almacenar los datos que envia la vista index
+     *  del empleado, una vez almacenados se genera el pdf con algunos de
+     *  los datos se almacena el PDF y después se manda el correo con los 
+     *  datos pertinentes
+     * 
+     */
     public function sendMail(Request $request){
-
-
 
         $extraviado = $request->input('nombre');
         $nombreExtrav = $request->input('nombreExtrav');
@@ -41,8 +49,7 @@ class MailController extends Controller
         $correo = new MailBox($extraviado,$estatus);
         $correo->attach($path,['as'=>$namepdf,'mime'=>'application/pdf']);
         $envioExitoso=Mail::to($email)->send($correo);
-        // echo var_dump(Mail::to('carrilloadrian62@gmail.com')->send(new MailBox()));
-        // exit;
+       
         if ($envioExitoso) {
         return redirect()->back()->with('success', 'Correo enviado con éxito');
          } else {
