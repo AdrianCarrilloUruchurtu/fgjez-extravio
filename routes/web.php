@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\EmpleadoController;
 use App\Http\Controllers\ExtraviadoController;
 use App\Http\Controllers\MailController;
+use App\Http\Controllers\EmailController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Mail\MailBox;
 use Illuminate\Support\Facades\Auth;
@@ -32,7 +33,13 @@ Route::resource('empleado',EmpleadoController::class)->middleware('auth');
 Route::resource('reporte',ExtraviadoController::class);
 Auth::routes(['reset'=>false]);
 Route::get('/home', [EmpleadoController::class, 'index'])->name('home');
-Route::post('/sendMail',[MailController::class,'sendMail']);
+
+Route::post('/sendEmail', [MailController::class, 'sendMail'])->name('sendMail');
+
+//Route::post('/mailDocCorrecta', [MailController::class, 'mailDocCorrecta'])->name('docCorrecta');
+// Route::post('/mailDocIncorrecta', [MailController::class, 'mailDocIncorrecta'])->name('docIncorrecta');
+//Route::post('/send-email', 'App\Http\Controllers\EmailController@sendEmail')->name('sendEmail');
+
 
 
 Route::group(['middleware'=>'auth'],function(){

@@ -2,7 +2,6 @@
 
 namespace App\Mail;
 
-use Illuminate\Mail\Mailables\Address;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
@@ -10,22 +9,24 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class MailBox extends Mailable
+class MailManager extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public $nombre;
-    public $estatus;
+    public function build()
+{
+    return $this->from('no.reply@ocstudios.mx')
+                ->subject('FGJEZ')
+                ->view('sendEmail'); 
+}
+
+
     /**
      * Create a new message instance.
      */
-    public function __construct($nombre,$estatus)
+    public function __construct()
     {
         //
-        $this->nombre=$nombre;
-        $this->estatus=$estatus;
-
-
     }
 
     /**
@@ -34,30 +35,18 @@ class MailBox extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            from: new Address('fgjez@fgjez.mx','FGJEZ'),
-            subject: 'Reporte revisado',
+            subject: 'Mail Manager',
         );
     }
 
     /**
      * Get the message content definition.
      */
-    public function content( ): Content
+    public function content(): Content
     {
-        
-        $nombre = $this->nombre;
-        $estatus = $this->estatus;
-        if($estatus=='correcto'){
-            $doc = 'mailDocCorrecta';
-        }
-        elseif($estatus=='incorrecto'){
-            $doc = 'mailDocIncorrecta';
-        }
         return new Content(
-            view:$doc,
-            with:[$nombre]
+            view: 'view.name',
         );
-
     }
 
     /**
@@ -69,8 +58,4 @@ class MailBox extends Mailable
     {
         return [];
     }
-
-    // public function build(){
-    //     return $this->view('sendMail');
-    // }
 }

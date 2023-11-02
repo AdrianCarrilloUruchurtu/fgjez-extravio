@@ -9,7 +9,20 @@
         </button>
          </div>
         @endif 
-         
+
+
+        @if(session('success'))
+        <div class="alert alert-success">
+            {{ session('success') }}
+        </div>
+    @endif
+    
+    @if(session('error'))
+        <div class="alert alert-danger">
+            {{ session('error') }}
+        </div>
+    @endif
+    
         
                           
 <br>
@@ -53,19 +66,30 @@
                 <td>{{ $extraviado->DescripcionHechos }}</td>
                 <td>{{ $extraviado->Estatus }}</td>
                 <td> 
-                    <form action="{{'MailController.sendMail'}}" method="post" class="d-inline">
-                        {{method_field('POST')}}
-                        <a href="" class="btn btn-warning">Recibido correctamente</a>
+                    <form action="{{ route('sendMail') }}" method="POST" class="d-inline">
+                        {{ method_field('post') }}
+                        @csrf
+
+                        <input type="hidden" name="nombre" value={{$extraviado->Nombre}}>
+                        <input type="hidden" name="email" value="{{$extraviado->Correo}}">
+                        <input type="hidden" name="descripcion" value="{{$extraviado->Descripcion}}">
+                        <input type="hidden" name="fechaExtravio" value="{{$extraviado->FechaExtravio}}">
+                        <input type="hidden" name="lugarExtravio" value="{{$extraviado->Lugar}}">
+                        <input type="hidden" name="estatus" value='correcto'>
+
+                        <button type="submit" class="btn btn-warning">Enviar mail de documentacion correcta </button>
                     </form>
                     
                      <br>
                      <br>
-                    <form action="{{ url( '/empleado/'.$extraviado->id)}}" method="post" class="d-inline">
+                    <form action="{{ route('sendMail',$extraviado->Correo,$extraviado->Nombre,$estatus =1)}}" method="post" class="d-inline">
                     @csrf
-                    {{ method_field('DELETE') }}
-                        <input class="btn btn-danger" type="submit" 
-                        onclick="return confirm('¿Quieres borrar?')"
-                        value="Solicitar revisión">
+                    {{ method_field('post') }}
+                    <input type="hidden" name="nombre" value="{{$extraviado->Nombre}}"> 
+                        <input type="hidden" name="email" value="{{$extraviado->Correo}}">
+                        <input type="hidden" name="estatus" value='incorrecto'>
+                    <button type="submit" class="btn btn-warning">Solicitar revisión de reporte </button>
+
                     
                     </form>
                     
